@@ -218,3 +218,5 @@ MEDIA_URL = 'media/'
 CORE_IMAGE_MODEL = "wagtailimages.Image"
 CORE_SITE_MODEL = "wagtailcore.Site"
 SITE_ID = 1
+
+CORE_IMAGE_RENDITION = "cabins.back.utils:ImageUtils"
