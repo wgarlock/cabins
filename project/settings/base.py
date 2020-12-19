@@ -215,6 +215,6 @@ DB_ROUTER_BLACK_LIST_HOSTNAMES = []
 STATIC_URL = 'static/'
 MEDIA_URL = 'media/'
 
-CORE_IMAGE_MODEL = "cabinscore.Image"
+CORE_IMAGE_MODEL = "wagtailimages.Image"
 CORE_SITE_MODEL = "wagtailcore.Site"
 SITE_ID = 1

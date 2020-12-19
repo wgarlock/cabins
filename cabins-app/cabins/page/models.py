@@ -1,13 +1,13 @@
 from django.core.cache import cache
 from django.db import models
 
-from cabins.core import get_app_site_string, get_image_model_string
+from cabins.core import get_image_model_string
 from cabins.core.models import SeriailizerMixin
 
 
 class AbstractBasePage(SeriailizerMixin):
     def context_builder(self, request):
-        context = dict(get_app_site_string())
+        context = dict()
         cache_key = "base_context-{path}-{host}".format(
             path=request.path,
             host=request.get_host()

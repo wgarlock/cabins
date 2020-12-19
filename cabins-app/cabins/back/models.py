@@ -1,5 +1,6 @@
 from django.db import models
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
+from wagtail.core.fields import RichTextField
 from wagtail.core.models import Page
 from wagtail.images.edit_handlers import ImageChooserPanel
 
@@ -8,7 +9,8 @@ from cabins.page.models import AbstractBasePage
 
 
 class WagtailBasePage(AbstractBasePage, Page):
-    description = models.TextField()
+
+    description = RichTextField()
     meta_description = models.CharField(max_length=120, blank=True, null=True)
     og_description = models.CharField(max_length=300, blank=True, null=True)
     og_image = models.ForeignKey(
@@ -24,3 +26,10 @@ class WagtailBasePage(AbstractBasePage, Page):
             ImageChooserPanel('og_image'),
         ], 'Open Graph Content'),
     ]
+
+    class Meta(Page.Meta):
+        abstract = True
+
+
+class HomePage(WagtailBasePage):
+    template = "home_page.jinja"

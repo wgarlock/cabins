@@ -28,7 +28,7 @@ class SeriailizerMixin:
         return SelfSerializer
 
     def serialize(self):
-        return self.serializer_model()(self).data
+        return self.serializer_model(self).data
 
     def serialize_all(self):
         return self.serializer_model()(self, many=True).data
