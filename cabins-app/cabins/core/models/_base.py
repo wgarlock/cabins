@@ -45,5 +45,6 @@ class SeriailizerMixin:
     def serialize(self):
         return self.serializer_model(self).data
 
-    def serialize_all(self):
-        return self.serializer_model()(self, many=True).data
+    def serialize_all(self, filters={}):
+        qs = self.__class__.objects.filter(**filters)
+        return self.serializer_model(qs, many=True).data
