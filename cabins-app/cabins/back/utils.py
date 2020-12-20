@@ -1,4 +1,12 @@
+from wagtail.core.models import Site
+
 from cabins.core import get_image_model_string
+
+
+class SiteUtils:
+    @classmethod
+    def get_site(self, request):
+        return Site.find_for_request(request)
 
 
 class ImageUtils:
@@ -9,13 +17,14 @@ class ImageUtils:
             # when the file is uploaded to precent latency issues when they are first requested
             return dict(
                 pk=value.pk,
+                url=value.file.url,
                 jpeg_400_url=value.get_rendition('width-400|format-jpeg').url,
                 jpeg_800_url=value.get_rendition('width-800|format-jpeg').url,
                 jpeg_1960_url=value.get_rendition('width-1960|format-jpeg').url
             )
-        else:
-            # ToDo make a better exception
-            raise Exception(
-                'Wrong Image Model Implemented. Make sure your CORE_IMAGE_MODEL = '
-                '"wagtailimages.Image in settings"'
-            )
+
+        # ToDo make a better exception
+        raise Exception(
+            'Wrong Image Model Implemented. Make sure your CORE_IMAGE_MODEL = '
+            '"wagtailimages.Image in settings"'
+        )
