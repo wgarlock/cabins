@@ -23,6 +23,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "aos": "^2.3.4",
+    "bootstrap": "^4.5.3",
     "classnames": "^2.2.6",
     "css": "^3.0.0",
     "date-fns": "^2.16.1",
@@ -33,6 +34,8 @@
     "js-cookie": "^2.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
+    "react-bootstrap": "^1.4.0",
+    "react-datepicker": "^3.3.0",
     "react-dom": "^16.13.1",
     "react-intersection-observer": "^8.26.2",
     "react-token-auth": "^1.1.7"
@@ -48,7 +51,8 @@
     "husky": "^4.3.5",
     "less": "^3.12.2",
     "lint-staged": "^10.5.3",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "sass": "^1.30.0"
   },
   "husky": {
     "hooks": {
