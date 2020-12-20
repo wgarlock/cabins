@@ -42,3 +42,4 @@ static
 .coverage
 coverage.*
 media/
+*/.eslintcache
