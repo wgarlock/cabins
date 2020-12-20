@@ -1,9 +1,0 @@
-extraction:
-    python:
-        python_setup:
-            version: 3
-    javascript:
-        index:
-            include:
-                - "./cabins-app/cabins/**/static_src/js/**"
-                - "./cabins-app/cabins/**/static_src/js/**"
