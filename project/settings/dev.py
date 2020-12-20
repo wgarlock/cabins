@@ -1,6 +1,7 @@
 import dj_database_url
 import environ
 import os
+
 from project.settings import BASE_DIR
 
 env = environ.Env(DEBUG=(bool, False))

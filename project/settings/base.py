@@ -76,6 +76,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+    'cabins.front.middleware.SiteContentMiddleware'
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -219,4 +220,6 @@ CORE_IMAGE_MODEL = "wagtailimages.Image"
 CORE_SITE_MODEL = "wagtailcore.Site"
 SITE_ID = 1
 
+CORE_PAGE_MODEL = "wagtailcore.Page"
 CORE_IMAGE_RENDITION = "cabins.back.utils:ImageUtils"
+CORE_SITE_FINDER = "cabins.back.utils:SiteUtils"
