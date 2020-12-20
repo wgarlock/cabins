@@ -1,6 +1,7 @@
 from wagtail.core.models import Site
 
 from cabins.core import get_image_model_string
+from cabins.core.exceptions import MisconfiguredModel
 
 
 class SiteUtils:
@@ -13,7 +14,7 @@ class ImageUtils:
     @classmethod
     def representation(self, value):
         if value._meta.label == get_image_model_string():
-            # ToDo make these value a generic value and then create renditions automatically
+            # TODO make these value a generic value and then create renditions automatically
             # when the file is uploaded to precent latency issues when they are first requested
             return dict(
                 pk=value.pk,
@@ -23,8 +24,7 @@ class ImageUtils:
                 jpeg_1960_url=value.get_rendition('width-1960|format-jpeg').url
             )
 
-        # ToDo make a better exception
-        raise Exception(
+        raise MisconfiguredModel(
             'Wrong Image Model Implemented. Make sure your CORE_IMAGE_MODEL = '
             '"wagtailimages.Image in settings"'
         )

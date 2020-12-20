@@ -3,6 +3,7 @@ from django.core.cache import cache
 
 from cabins.core import get_app_site_string
 from cabins.core.cache import get_cached_class
+from cabins.core.exceptions import MisconfiguredModel
 from cabins.front.models import SiteContent
 
 
@@ -29,5 +30,4 @@ def add_site_context(request):
         request.site_context = site_context
         return request
 
-    # ToDomake a better exception handler
-    raise Exception("Misconfigured Settings make sure the Core Site matches site finder")
+    raise MisconfiguredModel("Misconfigured Settings make sure the Core Site matches site finder")
