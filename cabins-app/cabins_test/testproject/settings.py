@@ -227,3 +227,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
+CORE_IMAGE_MODEL = "wagtailimages.Image"
+CORE_SITE_MODEL = "wagtailcore.Site"
+CORE_PAGE_MODEL = "wagtailcore.Page"
+CORE_IMAGE_RENDITION = "cabins.back.utils:ImageUtils"
+CORE_SITE_FINDER = "cabins.back.utils:SiteUtils"

@@ -18,6 +18,7 @@
         "react"
     ],
     "rules": {
+        "indent": ["error", 4]
     },
     "settings": {
         "react": {

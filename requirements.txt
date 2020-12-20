@@ -5,6 +5,7 @@
 --find-links wheels
 
 amqp==5.0.2               # via kombu
+aniso8601==7.0.0          # via graphene
 anyascii==0.1.7           # via wagtail
 argon2-cffi==20.1.0
 asgiref==3.3.1            # via django
@@ -13,7 +14,7 @@ beautifulsoup4==4.8.2     # via wagtail
 billiard==3.6.3.0         # via celery
 boto3==1.16.25
 botocore==1.19.37         # via boto3, s3transfer
-cabins-app==0.0.3
+cabins-app==0.0.4
 celery==5.0.0
 certifi==2020.12.5        # via requests, sentry-sdk
 cffi==1.14.4              # via argon2-cffi
@@ -39,6 +40,10 @@ djangorestframework==3.12.2  # via django-rest-auth, wagtail
 draftjs-exporter==2.1.7   # via wagtail
 et-xmlfile==1.0.1         # via openpyxl
 flake8==3.8.4
+graphene==2.1.8           # via graphene-django
+graphene-django==2.13.0
+graphql-core==2.3.2       # via graphene, graphene-django, graphql-relay
+graphql-relay==2.0.1      # via graphene
 gunicorn==20.0.4
 html5lib==1.1             # via wagtail
 idna==2.10                # via requests
@@ -52,10 +57,12 @@ kombu==5.0.2              # via celery
 l18n==2020.6.1            # via wagtail
 markupsafe==1.1.1         # via jinja2
 mccabe==0.6.1             # via flake8
+mock==4.0.3
 openpyxl==3.0.5           # via tablib
 packaging==20.8           # via pytest
 pillow==8.0.1             # via wagtail
 pluggy==0.13.1            # via pytest
+promise==2.3              # via graphene-django, graphql-core, graphql-relay
 prompt-toolkit==3.0.8     # via click-repl
 psycopg2-binary==2.8.5
 py==1.10.0                # via pytest
@@ -71,15 +78,17 @@ pytz==2020.4              # via celery, django, django-modelcluster, l18n
 pyyaml==5.3.1
 redis==3.5.3
 requests==2.25.0          # via wagtail
+rx==1.6.1                 # via graphql-core
 s3transfer==0.3.3         # via boto3
 sentry-sdk==0.19.4
-six==1.15.0               # via argon2-cffi, click-repl, django-rest-auth, html5lib, l18n, python-dateutil
+singledispatch==3.4.0.3   # via graphene-django
+six==1.15.0               # via argon2-cffi, click-repl, django-rest-auth, graphene, graphene-django, graphql-core, graphql-relay, html5lib, l18n, promise, python-dateutil, singledispatch
 soupsieve==2.1            # via beautifulsoup4
 sqlparse==0.4.1           # via django
 tablib[xls,xlsx]==3.0.0   # via wagtail
 toml==0.10.2              # via pytest
 typing-extensions==3.7.4.3  # via importlib-metadata
-unidecode==1.1.1          # via wagtail
+unidecode==1.1.1          # via graphene-django, wagtail
 urllib3==1.26.2           # via botocore, requests, sentry-sdk
 vine==5.0.0               # via amqp, celery
 wagtail==2.11.2

@@ -39,5 +39,10 @@ htmlcov/*
 coverage.xml
 .cache
 static
+
+media/
+*/.eslintcache
+
+# Test Reports
 .coverage
 coverage.*
