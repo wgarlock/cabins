@@ -1,3 +1,3 @@
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/wgarlock/cabins.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/wgarlock/cabins/alerts/)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/wgarlock/cabins.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/wgarlock/cabins/alerts/)  [![codecov](https://codecov.io/gh/wgarlock/cabins/branch/master/graph/badge.svg?token=bsokdhG7oV)](https://codecov.io/gh/wgarlock/cabins) [![Build Status](https://travis-ci.com/wgarlock/cabins.svg?branch=master)](https://travis-ci.com/wgarlock/cabins)
 
 Setup ReadMe
