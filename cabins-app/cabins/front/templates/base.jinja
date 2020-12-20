@@ -18,7 +18,7 @@
   {% endblock %}
   
   <link rel="icon" type="image/png" href='{{ static("image/favicon.ico") }}'/> 
-  
+  <link rel="stylesheet" type="text/css" href='{{ static("cabins-front.css") }}' />
   {% block extra_css%}
   {% endblock %}
 </head>
@@ -37,7 +37,7 @@
   {% endblock %}
   
   {% block extra_js %}
-    <script src="{{ static('daash-base.js') }}" ></script>
+    <script src="{{ static('cabins-front.js') }}" ></script>
   {% endblock %}
 </body>
 </html>

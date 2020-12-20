@@ -1,0 +1,12 @@
+$theme-colors: (
+    "primary": #d6efff,
+    "secondary": #0D3B66,
+    "accent": #EE964B,
+    "accent-secondary": #F95738,
+    "info": #EE964B,
+    "success": #F95738,
+);
+
+@import "~bootstrap/scss/bootstrap";
+@import './scss/cabins.scss';
+@import './scss/home.scss';
