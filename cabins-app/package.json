@@ -62,26 +62,21 @@
   },
   "lint-staged": {
     "./cabins/**/static_src/js/**": [
-      "eslint ./cabins/**/static_src/js/** --fix --ignore-path ./.eslintignore",
-      "git add"
+      "eslint ./cabins/**/static_src/js/** --fix --ignore-path ./.eslintignore"
     ],
     "./cabins/**/static_src/*.{js}": [
-      "eslint ./cabins/**/static_src/*.js --fix --ignore-path ./.eslintignore",
-      "git add"
+      "eslint ./cabins/**/static_src/*.js --fix --ignore-path ./.eslintignore"
     ],
     "./cabins/**/static_src/scss/** *.scss": [
-      "stylelint --syntax scss --fix",
-      "git add"
+      "stylelint --syntax scss --fix"
     ],
     "./cabins/**/static_src/*.{scss}": [
-      "stylelint --syntax scss --fix",
-      "git add"
+      "stylelint --syntax scss --fix"
     ],
     "*.js": "eslint --cache --fix",
     "*.py": [
       "flake8",
-      "isort .",
-      "git add"
+      "isort ."
     ]
   }
 }
