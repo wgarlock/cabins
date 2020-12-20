@@ -28,7 +28,7 @@ class AbstractBasePage(SeriailizerMixin):
     def get_context(self, request):
         self.request = request
         context = super().get_context(request)
-        context.update(self.context_builder(self.request))
+        context.update(self.get_context_data())
         return context
 
 
