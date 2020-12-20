@@ -77,6 +77,11 @@
       "stylelint --syntax scss --fix",
       "git add"
     ],
-    "*.js": "eslint --cache --fix"
+    "*.js": "eslint --cache --fix",
+    "*.py": [
+      "flake8",
+      "isort .",
+      "git add"
+    ]
   }
 }
