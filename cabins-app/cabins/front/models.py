@@ -1,6 +1,8 @@
 from django.db import models
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
+from wagtail.images.edit_handlers import ImageChooserPanel
 
 from cabins.core import get_app_site_string, get_image_model_string
 from cabins.core.models import Orderable, SeriailizerMixin
@@ -27,8 +29,13 @@ class SiteContent(SeriailizerMixin, ClusterableModel):
     )
     footer_content = models.TextField()
 
-    site_phone = models.CharField(max_length=16)
-    site_email = models.EmailField(max_length=255)
+    panels = [
+        FieldPanel('site'),
+        ImageChooserPanel('logo'),
+        FieldPanel('navigation'),
+        FieldPanel('footer_content'),
+        InlinePanel('social_media', label='Social Media links'),
+    ]
 
 
 class SocialMedia(Orderable):
