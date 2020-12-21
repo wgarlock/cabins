@@ -76,7 +76,6 @@ AWS_UPLOAD_EXPIRATION = env("AWS_UPLOAD_EXPIRATION", default=10)
 AWS_QUERYSTRING_EXPIRE = AWS_UPLOAD_EXPIRATION
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': str('public, max-age=31536000'),
-    'Access-Control-Allow-Origin': '*'
 }
 AWS_HEADERS = {
     'Expires': AWS_UPLOAD_EXPIRATION,

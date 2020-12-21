@@ -46,3 +46,7 @@ media/
 # Test Reports
 .coverage
 coverage.*
+kubernetes/
+
+cabins-secrets
+tf/
