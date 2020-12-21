@@ -20,7 +20,11 @@ RUN set -ex \
     && apk del .build-deps \
     && cd app && ls -all
 
+ADD .env /app
 WORKDIR /app
+
+ENV VIRTUAL_ENV /env
+ENV PATH /env/bin:$PATH
 
 EXPOSE 8000
 

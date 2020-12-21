@@ -15,7 +15,9 @@ root = environ.Path(__file__) - 3
 BASE_DIR = root()
 PROJECT_DIR = proj()
 
-DEBUG = env('DEBUG')
+env.read_env(os.path.join(BASE_DIR, '.env'))
+
+DEBUG = env('DEBUG', False)
 
 SECRET_KEY = env('SECRET_KEY')
 ALLOWED_HOSTS = env('ALLOWED_HOSTS', default='*')
