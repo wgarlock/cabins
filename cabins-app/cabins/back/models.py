@@ -42,3 +42,31 @@ class WagtailBasePage(AbstractBasePage, Page):
 
 class HomePage(WagtailBasePage):
     template = "home_page.jinja"
+
+
+class ContinentalPage(WagtailBasePage):
+    template = "home_page.jinja"
+    parent_page_type = [
+        'cabinsback.HomePage'
+    ]
+
+
+class StatePage(WagtailBasePage):
+    template = "home_page.jinja"
+    parent_page_type = [
+        'cabinsback.ContinentalPage'
+    ]
+
+
+class RegionalPage(WagtailBasePage):
+    template = "home_page.jinja"
+    parent_page_type = [
+        'cabinsback.StatePage'
+    ]
+
+
+class ListingPage(WagtailBasePage):
+    template = "home_page.jinja"
+    parent_page_type = [
+        'cabinsback.RegionalPage'
+    ]
