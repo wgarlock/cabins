@@ -14,7 +14,7 @@ beautifulsoup4==4.8.2     # via wagtail
 billiard==3.6.3.0         # via celery
 boto3==1.16.25
 botocore==1.19.37         # via boto3, s3transfer
-cabins-app==0.0.4
+cabins-app==0.0.5
 celery==5.0.0
 certifi==2020.12.5        # via requests, sentry-sdk
 cffi==1.14.4              # via argon2-cffi
