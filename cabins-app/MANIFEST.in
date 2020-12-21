@@ -2,17 +2,17 @@ recursive-include cabins/core/*.xlsx
 recursive-include cabins/core/locale *.mo
 recursive-include cabins/core/templates *.jinja *.txt *.html
 recursive-include cabins/core/static *.*
-recursive-exclude cabins/core/static *.map
-recursive-include cabins/admin/*.xlsx
-recursive-include cabins/admin/locale *.mo
-recursive-include cabins/admin/templates *.jinja *.txt *.html
-recursive-include cabins/admin/static *.*
-recursive-exclude cabins/admin/static *.map
+recursive-include cabins/core/static *.map
+recursive-include cabins/back/*.xlsx
+recursive-include cabins/back/locale *.mo
+recursive-include cabins/back/templates *.jinja *.txt *.html
+recursive-include cabins/back/static *.*
+recursive-include cabins/back/static *.map
 recursive-include cabins/front/*.xlsx
 recursive-include cabins/front/locale *.mo
 recursive-include cabins/front/templates *.jinja *.txt *.html
 recursive-include cabins/front/static *.*
-recursive-exclude cabins/front/static *.map
+recursive-include cabins/front/static *.map
 recursive-include cabins_test/ *.env
 recursive-include cabins_test/testproject/ *.py
 recursive-include cabins/front/static *.*
