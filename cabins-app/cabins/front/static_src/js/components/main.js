@@ -11,6 +11,10 @@ import FormControl from 'react-bootstrap/FormControl'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import {
+    Link
+} from 'react-router-dom'
+import apiUpdate from '../functions/apiUpdate'
 
 export default function Main (props) {
     return (
@@ -20,8 +24,8 @@ export default function Main (props) {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#link">Link</Nav.Link>
+                        <Nav.Link href="#home"><Link to="/" onClick={() => apiUpdate('home', props.contextState)}>Home</Link></Nav.Link>
+                        <Nav.Link href="#link"><Link to="/usa/" onClick={() => apiUpdate('usa', props.contextState)}>USA</Link></Nav.Link>
                         <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -57,5 +61,6 @@ export default function Main (props) {
 }
 
 Main.propTypes = {
-    children: PropTypes.element
+    children: PropTypes.element,
+    contextState: PropTypes.func
 }
