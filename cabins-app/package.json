@@ -10,7 +10,7 @@
     "lint:scss:fix": "stylelint 'src/**/*.scss' --syntax scss --fix",
     "lint:js": "eslint ./cabins/**/static_src/*.js ./cabins/**/static_src/js/** --ext .js --ignore-path ./.eslintignore",
     "lint:js:fix": "npm run lint:js -- --fix",
-    "postinstall": "husky install"
+    "postinstall": "npx husky install"
   },
   "author": "",
   "license": "ISC",
