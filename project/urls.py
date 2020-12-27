@@ -17,7 +17,7 @@ if settings.DEBUG:
 
 urlpatterns += [
     path('admin/', include(wagtailadmin_urls)),
-    path("api", csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    path("api", csrf_exempt(GraphQLView.as_view(graphiql=settings.DEBUG))),
     path("", include(wagtail_urls)),
 ]
 
