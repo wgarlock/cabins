@@ -100,7 +100,6 @@ class ListingPage(WagtailBasePage):
     # Amenities
     open_dates = ClusterTaggableManager(through="cabinspage.OpenDates", blank=True, related_name="open_date")
     general = ClusterTaggableManager(through="cabinspage.General", blank=True, related_name="general")
-    food_drink = ClusterTaggableManager(through="cabinspage.Room", blank=True, related_name="room")
     food_drink = ClusterTaggableManager(through="cabinspage.FoodDrink", blank=True, related_name="food_drink")
     property_size = ClusterTaggableManager(through="cabinspage.PropertySize", blank=True, related_name="property_size")
     room = ClusterTaggableManager(through="cabinspage.Room", blank=True, related_name="room")
