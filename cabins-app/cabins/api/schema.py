@@ -188,61 +188,61 @@ class Query(graphene.ObjectType):
     all_listing_pages = graphene.List(ListingPageType)
     get_listing_page_by_id = graphene.Field(ListingPageType, id=graphene.Int(required=True))
 
-    def resolve_all_site_contents(root, info):
+    def resolve_all_site_contents(self, info):
         # We can easily optimize query count in the resolve method
         return SiteContent.objects.all()
 
-    def resolve_get_site_content_by_id(root, info, id):
+    def resolve_get_site_content_by_id(self, info, id):
         try:
             return SiteContent.objects.select_related("logo").prefetch_related("navigation").get(id=id)
         except SiteContent.DoesNotExist:
             return None
 
-    def resolve_all_home_pages(root, info):
+    def resolve_all_home_pages(self, info):
         # We can easily optimize query count in the resolve method
         return HomePage.objects.select_base_related().all()
 
-    def resolve_get_home_page_by_id(root, info, id):
+    def resolve_get_home_page_by_id(self, info, id):
         try:
             return HomePage.objects.select_base_related().get(id=id)
         except HomePage.DoesNotExist:
             return None
 
-    def resolve_all_continental_pages(root, info):
+    def resolve_all_continental_pages(self, info):
         # We can easily optimize query count in the resolve method
         return ContinentalPage.objects.select_base_related().all()
 
-    def resolve_get_continental_page_by_id(root, info, id):
+    def resolve_get_continental_page_by_id(self, info, id):
         try:
             return ContinentalPage.objects.select_base_related().get(id=id)
         except ContinentalPage.DoesNotExist:
             return None
 
-    def resolve_all_state_pages(root, info):
+    def resolve_all_state_pages(self, info):
         # We can easily optimize query count in the resolve method
         return StatePage.objects.select_base_related().all()
 
-    def resolve_get_state_page_by_id(root, info, id):
+    def resolve_get_state_page_by_id(self, info, id):
         try:
             return StatePage.objects.select_base_related().get(id=id)
         except StatePage.DoesNotExist:
             return None
 
-    def resolve_all_regional_pages(root, info):
+    def resolve_all_regional_pages(self, info):
         # We can easily optimize query count in the resolve method
         return RegionalPage.objects.select_base_related().all()
 
-    def resolve_get_regional_page_by_id(root, info, id):
+    def resolve_get_regional_page_by_id(self, info, id):
         try:
             return RegionalPage.objects.select_base_related().get(id=id)
         except RegionalPage.DoesNotExist:
             return None
 
-    def resolve_all_listing_pages(root, info):
+    def resolve_all_listing_pages(self, info):
         # We can easily optimize query count in the resolve method
         return ListingPage.objects.select_base_related().all()
 
-    def resolve_get_listing_page_by_id(root, info, id):
+    def resolve_get_listing_page_by_id(self, info, id):
         try:
             return ListingPage.objects.select_base_related().get(id=id)
         except ListingPage.DoesNotExist:
