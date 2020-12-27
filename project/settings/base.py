@@ -17,7 +17,7 @@ PROJECT_DIR = proj()
 
 env.read_env(os.path.join(BASE_DIR, '.env'))
 
-DEBUG = True
+DEBUG = env('DEBUG', default=False)
 
 SECRET_KEY = env('SECRET_KEY')
 ALLOWED_HOSTS = env('ALLOWED_HOSTS', default='*')
