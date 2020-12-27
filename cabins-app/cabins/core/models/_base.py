@@ -1,10 +1,7 @@
-from django.conf import settings
 from django.db import models
-from django.utils.functional import cached_property
-from rest_framework import serializers
+from graphql import get_default_backend
 
-from cabins.core import get_image_model_string
-from cabins.core.cache import get_cached_class
+from cabins.core.cache import get_class
 
 
 class Orderable(models.Model):
@@ -22,29 +19,57 @@ class Image(models.Model):
 
 
 class SeriailizerMixin:
-    @cached_property
-    def serializer_model(self, exclude_tup=()):
-        class SelfSerializer(serializers.ModelSerializer):
-            def build_relational_field(self, field_name, relation_info):
-                field_class, field_kwargs = super().build_relational_field(field_name, relation_info)
-                if relation_info.related_model._meta.label == get_image_model_string():
-                    class ImageField(serializers.RelatedField):
-                        def to_representation(self, value):
-                            return get_cached_class(settings.CORE_IMAGE_RENDITION).representation(value)
+    # convert TaggableManager to string representation
 
-                    field_class = ImageField
+    backend = get_default_backend()
 
-                return field_class, field_kwargs
+    def get_schema(self):
+        return get_class("cabins.api.schema:schema")
 
-            class Meta:
-                model = self.__class__
-                exclude = exclude_tup
+    serialize_attrs = """
+        id
+        title
+        description
+        heroImage{
+            jpeg400
+            jpeg800
+            jpeg1960
+        }
+        ogImage{
+            jpeg400
+            jpeg800
+            jpeg1960
+        }
+    """
 
-        return SelfSerializer
+    def get_query(self):
+        return f"""query {{
+            get{self.__class__.__name__}ById (id: {self.id}) {{
+                {self.serialize_attrs}
+            }}
+        }}
+        """
+
+    def get_all_query(self):
+        return f"""query {{
+            all{self.__class__.__name__}s {{
+                {self.serialize_attrs}
+            }}
+        }}
+        """
 
     def serialize(self):
-        return self.serializer_model(self).data
+        return self.backend.document_from_string(
+            self.get_schema(),
+            self.get_query()
+        ).execute().data.get(
+            f"get{self.__class__.__name__}ById"
+        )
 
-    def serialize_all(self, filters={}):
-        qs = self.__class__.objects.filter(**filters)
-        return self.serializer_model(qs, many=True).data
+    def serialize_all(self):
+        return self.backend.document_from_string(
+            self.get_schema(),
+            self.get_all_query()
+        ).execute().data.get(
+            f"all{self.__class__.__name__}s"
+        )
