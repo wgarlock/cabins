@@ -1,12 +1,11 @@
 import os
 import pytest
-from django.apps import apps
-from django.contrib.auth import get_user_model
-from django.core.files import File
-
 from cabins.core.cache import get_cached_class
 from cabins.core.models import Image
 from cabins.page import get_page_string
+from django.apps import apps
+from django.contrib.auth import get_user_model
+from django.core.files import File
 
 Page = apps.get_model(get_page_string())
 User = get_user_model()
