@@ -56,7 +56,6 @@ THIRD_PARTY_APPS = [
     'taggit',
     'django_jinja',
     'graphene_django',
-    'rest_auth',
     'treebeard',
     'boto3',
     'storages',
