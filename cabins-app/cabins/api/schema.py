@@ -90,7 +90,7 @@ class ImageType(DjangoObjectType):
     jpeg_1960 = graphene.String()
 
     def resolve_url(self, info):
-        return self.url
+        return self.file.url
 
     def resolve_jpeg_400(self, info):
         return self.get_rendition('width-400|format-jpeg').url
