@@ -1,13 +1,13 @@
 import hashlib
+from django.conf import settings
 from django.contrib.auth import get_user_model
 
 from cabins.core.cache import get_cached_class
-from cabins.core.models import Image
-from cabins.core.utils import ImageUtils, SiteUtils
 
-from .fixtures.core_fixtures import image, sites, users  # noqa
+from .fixtures.core_fixtures import image, site, users, wagtail_site  # noqa
 from .fixtures.request import HostNameRequestFactory as rf  # noqa
 
+Site = get_cached_class(settings.CORE_SITE_FINDER).get_model()
 User = get_user_model()
 
 
@@ -60,20 +60,17 @@ def test_user_str_rep(db, users): # noqa
     assert user.email == user.__str__()
 
 
-def test_core_site_utils(db, sites): # noqa
+def test_core_wagtail_site_utils(db, wagtail_site): # noqa
+    SiteUtils = get_cached_class(settings.CORE_SITE_FINDER)
     request = rf(host_name="test.com").get("/")
-    site = SiteUtils.get_site(request)
-    assert site.domain == "test.com"
+    site_model = SiteUtils.get_site(request)
+    assert site_model.hostname == "test.com"
+    assert "wagtailcore.Site" == SiteUtils.get_model()._meta.label
 
 
-def test_core_image_utils(db, image): # noqa
-    image = Image.objects.get(name="test_image")
-    repre = ImageUtils.representation(image)
-    assert repre["pk"] == image.pk
-    assert repre["url"] == image.file.url
-
-
-def test_get_cached_class():
-    cached_class = get_cached_class("cabins.core.utils:ImageUtils")
-    cached_class = get_cached_class("cabins.core.utils:ImageUtils")
-    assert cached_class is ImageUtils
+def test_core_site_utils(db, site): # noqa
+    SiteUtils = get_cached_class("cabins.core.utils:SiteUtils")
+    request = rf(host_name="test.com").get("/")
+    site_model = SiteUtils.get_site(request)
+    assert site_model.domain == "test.com"
+    assert "sites.Site" == SiteUtils.get_model()._meta.label

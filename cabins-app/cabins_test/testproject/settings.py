@@ -28,7 +28,8 @@ LOCAL_APPS = [
     'cabins.core',
     'cabins.page',
     'cabins.back',
-    'cabins.front'
+    'cabins.front',
+    'cabins.api'
 ]
 
 THIRD_PARTY_APPS = [
@@ -49,9 +50,6 @@ THIRD_PARTY_APPS = [
     'modelcluster',
     'taggit',
     'django_jinja',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'rest_auth',
     'treebeard',
     'storages',
 ]
@@ -73,7 +71,7 @@ MIDDLEWARE = [
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
 
-ROOT_URLCONF = 'testproject.urls'
+ROOT_URLCONF = 'cabins_test.testproject.urls'
 
 _TEMPLATE_CONTEXT_PROCESSORS = [
     "django.contrib.auth.context_processors.auth",
@@ -214,13 +212,6 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ]
-}
-
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
@@ -230,6 +221,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 CORE_IMAGE_MODEL = "wagtailimages.Image"
 CORE_SITE_MODEL = "wagtailcore.Site"
+
 CORE_PAGE_MODEL = "wagtailcore.Page"
 CORE_IMAGE_RENDITION = "cabins.back.utils:ImageUtils"
 CORE_SITE_FINDER = "cabins.back.utils:SiteUtils"
+
+GRAPHENE = {
+    "SCHEMA": "cabins.api.schema.schema"
+}
