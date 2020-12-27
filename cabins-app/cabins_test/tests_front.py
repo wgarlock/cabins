@@ -8,25 +8,25 @@ from cabins.front.middleware import add_site_context, SiteContentMiddleware
 from cabins.front.templatetags.base import dump
 
 from .fixtures.back_fixtures import home_page, wagtail_image  # noqa
-from .fixtures.core_fixtures import sites  # noqa
+from .fixtures.core_fixtures import site  # noqa
 from .fixtures.request import HostNameRequestFactory as rf  # noqa
 
 
-def test_site_content_middleware(db, sites): # noqa
+def test_site_content_middleware(db, site): # noqa
     get_response = mock.MagicMock()
     request = rf(host_name="test.com").get("/")
     middleware = SiteContentMiddleware(get_response)
     middleware(request)
 
 
-def test_add_site_context(db, sites): # noqa
+def test_add_site_context(db, site): # noqa
     request = rf(host_name="test.com").get("/")
     request = add_site_context(request)
     request = add_site_context(request)
 
 
 @override_settings(CORE_SITE_MODEL="sites.Site")
-def test_add_site_contexts_wrong_SITE(db, sites): # noqa
+def test_add_site_contexts_wrong_SITE(db, site): # noqa
     request = rf(host_name="test.com").get("/")
     try:
         request = add_site_context(request)

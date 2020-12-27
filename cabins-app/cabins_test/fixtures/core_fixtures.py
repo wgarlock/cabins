@@ -1,11 +1,14 @@
 import os
 import pytest
+from django.apps import apps
 from django.contrib.auth import get_user_model
-from django.contrib.sites.models import Site
 from django.core.files import File
 
+from cabins.core.cache import get_cached_class
 from cabins.core.models import Image
+from cabins.page import get_page_string
 
+Page = apps.get_model(get_page_string())
 User = get_user_model()
 
 users_fixture = [
@@ -33,8 +36,8 @@ users_fixture = [
 
 site_fixture = [
     dict(
-        domain="test.com",
-        name="testing"
+        hostname="test.com",
+        site_name="testing"
     )
 ]
 
@@ -50,8 +53,22 @@ def users(db) -> User:
 
 
 @pytest.fixture
-def sites(db) -> Site:
-    return [Site.objects.create(**site) for site in site_fixture]
+def site(db):
+    Site = get_cached_class("cabins.core.utils:SiteUtils").get_model()
+    return Site.objects.create(
+        domain="test.com",
+        name="testing",
+    )
+
+
+@pytest.fixture
+def wagtail_site(db):
+    Site = get_cached_class("cabins.back.utils:SiteUtils").get_model()
+    return Site.objects.create(
+        hostname="test.com",
+        site_name="testing",
+        root_page=Page.objects.get(depth=1)
+    )
 
 
 @pytest.fixture

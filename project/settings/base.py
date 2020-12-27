@@ -17,7 +17,7 @@ PROJECT_DIR = proj()
 
 env.read_env(os.path.join(BASE_DIR, '.env'))
 
-DEBUG = env('DEBUG', False)
+DEBUG = True
 
 SECRET_KEY = env('SECRET_KEY')
 ALLOWED_HOSTS = env('ALLOWED_HOSTS', default='*')
@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'cabins.page',
     'cabins.back',
     'cabins.front',
+    'cabins.api',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,8 +55,7 @@ THIRD_PARTY_APPS = [
     'modelcluster',
     'taggit',
     'django_jinja',
-    'rest_framework',
-    'rest_framework.authtoken',
+    'graphene_django',
     'rest_auth',
     'treebeard',
     'boto3',
@@ -223,3 +223,7 @@ SITE_ID = 1
 CORE_PAGE_MODEL = "wagtailcore.Page"
 CORE_IMAGE_RENDITION = "cabins.back.utils:ImageUtils"
 CORE_SITE_FINDER = "cabins.back.utils:SiteUtils"
+
+GRAPHENE = {
+    "SCHEMA": "cabins.api.schema.schema"
+}

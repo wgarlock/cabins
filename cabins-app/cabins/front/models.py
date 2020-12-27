@@ -37,6 +37,27 @@ class SiteContent(SeriailizerMixin, ClusterableModel):
         InlinePanel('social_media', label='Social Media links'),
     ]
 
+    serialize_attrs = """
+        id
+        footerContent
+        logo {
+            file
+            url
+        }
+        navigation {
+            id
+            title
+            url
+            slug
+            contentType
+        }
+        socialMedia {
+            name
+            url
+            icon
+        }
+    """
+
 
 class SocialMedia(Orderable):
     site = ParentalKey(
