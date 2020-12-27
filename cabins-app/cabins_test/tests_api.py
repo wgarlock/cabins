@@ -1,8 +1,7 @@
-from graphene.test import Client
-
 from cabins.api.schema import schema
 from cabins.back.models import ContinentalPage, HomePage, ListingPage, RegionalPage, StatePage
 from cabins.front.models import SiteContent
+from graphene.test import Client
 
 from .fixtures.back_fixtures import (  # noqa
     continental_page, home_page, listing_page, region_page, state_page, wagtail_image

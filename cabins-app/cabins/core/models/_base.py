@@ -1,7 +1,6 @@
+from cabins.core.cache import get_class
 from django.db import models
 from graphql import get_default_backend
-
-from cabins.core.cache import get_class
 
 
 class Orderable(models.Model):

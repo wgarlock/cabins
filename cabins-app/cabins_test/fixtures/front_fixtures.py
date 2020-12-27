@@ -1,11 +1,10 @@
 import pytest
-from django.apps import apps
-from django.conf import settings
-from django.core.files import File
-
 from cabins.core.cache import get_cached_class
 from cabins.front.models import SiteContent, SocialMedia
 from cabins.page import get_page_string
+from django.apps import apps
+from django.conf import settings
+from django.core.files import File
 
 from .core_fixtures import image_fixture
 
