@@ -18,10 +18,10 @@ RUN set -ex \
         | sort -u)" \
     && apk add --virtual rundeps $runDeps \
     && apk del .build-deps \
-    && cd app && ls -all \
-    && python manage.py migrate && python manage.py collectstatic
+    && cd app \
+    && touch .env \
+    && ls -all
 
-ADD .env /app
 WORKDIR /app
 
 ENV VIRTUAL_ENV /env
