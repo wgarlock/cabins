@@ -1,17 +1,20 @@
-/* globals context */
 import React from 'react'
+import PropTypes from 'prop-types'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-export default function Region () {
+export default function Region (props) {
+    const {
+        page
+    } = props
     return (
-        <>
+        <div className="inner-container">
             <Row>
                 <Col sm={6}>
-                    <h1 className="page-title">{context.page.title}</h1>
+                    <h1 className="page-title">{page.title}</h1>
                 </Col>
             </Row>
             <Row>
@@ -19,34 +22,32 @@ export default function Region () {
                     <Card >
                         <Card.Body>
                             <Card.Title>Filter by:</Card.Title>
-                            <Card.Text>
-                                <Form>
-                                    <div key={'default-checkbox'} className="mb-3 filters-form">
-                                        <h6>Suitability</h6>
-                                        <Form.Check
-                                            type="checkbox"
-                                            id={'default-checkbox'}
-                                            label={'default checkbox'}
-                                        />
-                                    </div>
-                                    <div key={'default-checkbox'} className="mb-3 filters-form">
-                                        <h6>Room</h6>
-                                        <Form.Check
-                                            type="checkbox"
-                                            id={'default-checkbox'}
-                                            label={'default checkbox'}
-                                        />
-                                    </div>
-                                    <div key={'default-checkbox'} className="mb-3 filters-form">
-                                        <h6>General</h6>
-                                        <Form.Check
-                                            type="checkbox"
-                                            id={'default-checkbox'}
-                                            label={'default checkbox'}
-                                        />
-                                    </div>
-                                </Form>
-                            </Card.Text>
+                            <Form>
+                                <div key={'default-checkbox'} className="mb-3 filters-form">
+                                    <h6>Suitability</h6>
+                                    <Form.Check
+                                        type="checkbox"
+                                        id={'default-checkbox'}
+                                        label={'default checkbox'}
+                                    />
+                                </div>
+                                <div key={'default-checkbox'} className="mb-3 filters-form">
+                                    <h6>Room</h6>
+                                    <Form.Check
+                                        type="checkbox"
+                                        id={'default-checkbox'}
+                                        label={'default checkbox'}
+                                    />
+                                </div>
+                                <div key={'default-checkbox'} className="mb-3 filters-form">
+                                    <h6>General</h6>
+                                    <Form.Check
+                                        type="checkbox"
+                                        id={'default-checkbox'}
+                                        label={'default checkbox'}
+                                    />
+                                </div>
+                            </Form>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -73,6 +74,11 @@ export default function Region () {
                     </Card>
                 </Col>
             </Row>
-        </>
+        </div>
     )
+}
+
+Region.propTypes = {
+    page: PropTypes.object.isRequired,
+    handlePage: PropTypes.func
 }

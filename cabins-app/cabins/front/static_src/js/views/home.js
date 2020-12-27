@@ -1,5 +1,5 @@
-/* globals context */
 import React from 'react'
+import PropTypes from 'prop-types'
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
@@ -7,10 +7,14 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import DatePicker from 'react-datepicker'
 
-export default function Home () {
+export default function Home (props) {
+    const {
+        page
+    } = props
+
     let backgroundImage = null
-    if (context.page.hero_image.jpeg_1960_url) {
-        backgroundImage = context.page.hero_image.jpeg_1960_url
+    if (page.heroImage.jpeg1960) {
+        backgroundImage = page.heroImage.jpeg1960
     }
 
     const jumboStyle = {
@@ -40,4 +44,9 @@ export default function Home () {
             </Container>
         </Jumbotron>
     )
+}
+
+Home.propTypes = {
+    page: PropTypes.object.isRequired,
+    handlePage: PropTypes.func
 }
