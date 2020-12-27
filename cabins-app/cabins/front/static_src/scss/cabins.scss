@@ -10,17 +10,16 @@
 }
 
 .container-cabins.primary {
-    background-color: $primary;
     margin-top:56px;
-    padding:50px;
 }
 
 .container-cabins.secondary {
-    background-color: $secondary;
+    background-color: #0D3B66;
 }
 
 .container-cabins.footer {
     padding-top: 50px;
+    color: #ffffff;
 }
 
 .cabins-navbar{
@@ -46,4 +45,8 @@
 .listingCard{
     text-align:left;
     margin-bottom:25px;
+}
+
+.inner-container{
+    padding:50px;
 }

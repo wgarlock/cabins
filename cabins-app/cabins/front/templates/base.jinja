@@ -33,6 +33,7 @@
     {{ base_context|dump(base_context_id, "context") }}
     <script>
       var csrf_input = "{% csrf_token %}"
+      var csrftoken = "{{ csrf_token }}"
     </script>
   {% endblock %}
   
