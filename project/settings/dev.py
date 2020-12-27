@@ -24,7 +24,8 @@ DATABASES = {'default': dj_database_url.config(default=env('DATABASE_URL_DEV', d
 
 
 DEV_APPS = [
-    "debug_toolbar"
+    "debug_toolbar",
+    "django_extensions"
 ]
 
 DEV_MIDDLEWARE = [
@@ -34,3 +35,5 @@ DEV_MIDDLEWARE = [
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
+SHOW_TOOLBAR_CALLBACK = True
