@@ -226,3 +226,5 @@ CORE_SITE_FINDER = "cabins.back.utils:SiteUtils"
 GRAPHENE = {
     "SCHEMA": "cabins.api.schema.schema"
 }
+
+GRAPHQL_AUTH = {}

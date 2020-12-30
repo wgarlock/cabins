@@ -28,7 +28,7 @@ def optenv(var):
 
 env.read_env(os.path.join(BASE_DIR, '.env'))
 
-ALLOWED_HOSTS = env('ALLOWED_HOSTS', default='')
+ALLOWED_HOSTS = env('ALLOWED_HOSTS', default='*,').split(",")
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = env('EMAIL_HOST ', default=None)
 EMAIL_PORT = env('EMAIL_PORT', default=None)

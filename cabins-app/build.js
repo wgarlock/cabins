@@ -1,13 +1,15 @@
 const { spawn } = require('child_process')
 const path = require('path')
 const fs = require('fs')
-
+const packageJson = require('./package.json')
 function parcelBuild (path) {
     const staticSrc = path + '/static_src'
     const file = path.substring(path.lastIndexOf('/') + 1)
     if (fs.existsSync(staticSrc)) {
         const cmd = 'NODE_ENV=production parcel build'
-        const args = [staticSrc + '/index.js', '--out-dir ' + path + '/static', '--out-file cabins-' + file + '.js', '--public-url /static/']
+        const outDir = path + '/static'
+        fs.rmdirSync(outDir, { recursive: true })
+        const args = [staticSrc + '/index.js', '--out-dir ' + outDir, '--out-file cabins-' + file + '.' + packageJson.version + '.js', '--public-url /static/']
         console.log(cmd)
         console.log(args)
         const results = spawn(cmd, args, { shell: true })
@@ -18,7 +20,7 @@ function parcelBuild (path) {
             console.error(`stderr: ${data}`)
         })
         results.on('close', (code) => {
-            console.log(`child process exited with code ${code}`);
+            console.log(`child process exited with code ${code}`)
         })
     }
 }
