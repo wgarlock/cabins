@@ -1,10 +1,11 @@
 import mock
+from django.contrib.auth.models import AnonymousUser
+from django.test import override_settings
+
 from cabins.back.models import HomePage
 from cabins.core.exceptions import MisconfiguredModel
 from cabins.front.middleware import add_site_context, SiteContentMiddleware
 from cabins.front.templatetags.base import dump
-from django.contrib.auth.models import AnonymousUser
-from django.test import override_settings
 
 from .fixtures.back_fixtures import home_page, wagtail_image  # noqa
 from .fixtures.core_fixtures import site  # noqa

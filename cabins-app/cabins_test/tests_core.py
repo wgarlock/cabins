@@ -1,7 +1,8 @@
 import hashlib
-from cabins.core.cache import get_cached_class
 from django.conf import settings
 from django.contrib.auth import get_user_model
+
+from cabins.core.cache import get_cached_class
 
 from .fixtures.core_fixtures import image, site, users, wagtail_site  # noqa
 from .fixtures.request import HostNameRequestFactory as rf  # noqa
