@@ -1,8 +1,9 @@
 import pytest
-from cabins.back.models import ContinentalPage, HomePage, ListingPage, RegionalPage, StatePage
 from django.core.files import File
 from wagtail.core.models import Page
 from wagtail.images.models import Image
+
+from cabins.back.models import ContinentalPage, HomePage, ListingPage, RegionalPage, StatePage
 
 from .core_fixtures import image_fixture
 

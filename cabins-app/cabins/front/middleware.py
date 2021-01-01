@@ -1,9 +1,10 @@
+from django.conf import settings
+from django.core.cache import cache
+
 from cabins.core import get_app_site_string
 from cabins.core.cache import get_cached_class
 from cabins.core.exceptions import MisconfiguredModel
 from cabins.front.models import SiteContent
-from django.conf import settings
-from django.core.cache import cache
 
 
 class SiteContentMiddleware:

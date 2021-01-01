@@ -1,6 +1,7 @@
+from django.contrib.auth.models import AnonymousUser
+
 from cabins.back.models import HomePage
 from cabins.front.middleware import add_site_context
-from django.contrib.auth.models import AnonymousUser
 
 from .fixtures.back_fixtures import home_page, wagtail_image  # noqa
 from .fixtures.request import HostNameRequestFactory as rf

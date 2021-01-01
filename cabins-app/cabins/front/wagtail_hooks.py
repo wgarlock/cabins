@@ -1,5 +1,6 @@
-from cabins.front.models import SiteContent
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
+
+from cabins.front.models import SiteContent
 
 
 class SiteContentAdmin(ModelAdmin):

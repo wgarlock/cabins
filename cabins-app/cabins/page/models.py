@@ -1,10 +1,11 @@
-from cabins.core import get_image_model_string
-from cabins.core.models import SeriailizerMixin
-from cabins.page import get_page_string
 from django.core.cache import cache
 from django.db import models
 from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
+
+from cabins.core import get_image_model_string
+from cabins.core.models import SeriailizerMixin
+from cabins.page import get_page_string
 
 
 class AbstractBasePage(SeriailizerMixin):
