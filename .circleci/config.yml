@@ -1,21 +1,75 @@
 version: 2.1
-
 orbs:
-  python: circleci/python@0.2.1
-
+  codecov: codecov/codecov@1.0.2
 jobs:
-  build-and-test:
-    executor: python/default
+  build:
+    docker:
+      - image: circleci/python:3.7
+      - image: circleci/postgres:9.6.2-alpine
+        auth:
+          username: wgarlock
+          password: $DOCKERHUB_PASSWORD 
+        environment:
+          POSTGRES_USER: testuser
+          POSTGRES_DB: test12345
     steps:
       - checkout
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
+      - setup_remote_docker
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
-          command: ./manage.py test
-          name: Test
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv"
+      - run:
+          name: Running tests
+          command: |
+            . venv/bin/activate
+            flake8
+            isort ./cabins-app --check --diff
+            coverage run -m pytest --pyargs cabins_test
+            coverage xml -i
+    
+      - codecov/upload:
+          file: ./coverage.xml
+  
+      - run:
+          name: Build Docker image
+          when: on_success
+          command: |
+            docker build -t cabins-app:latest .
+            docker tag cabins-app:latest wgarlock/cabins-app:latest
+            docker tag cabins-app:latest wgarlock/cabins-app:v0.0.10
+            echo "$DOCKERHUB_PASSWORD" | docker login -u "wgarlock" --password-stdin
+            docker push wgarlock/cabins-app:latest
+            docker push wgarlock/cabins-app:v0.0.10
 
-workflows:
-  main:
-    jobs:
-      - build-and-test
+      - run:
+          name: Install Deployment Requirements
+          when: on_success 
+          command: |
+            sudo apt install curl
+            curl -LO https://get.helm.sh/helm-v3.4.2-linux-amd64.tar.gz
+            tar -C /tmp/ -zxvf helm-v3.4.2-linux-amd64.tar.gz
+            sudo mv /tmp/linux-amd64/helm /usr/local/bin/helm
+            sudo rm helm-v3.4.2-linux-amd64.tar.gz
+            helm version
+            curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+            chmod u+x ./kubectl
+
+      - run:
+          name: Deploy Code
+          when: on_success 
+          command: |
+            echo "$KUBERNETES_CLUSTER_CERTIFICATE" | base64 --decode > cert.crt
+            ./kubectl \
+            --kubeconfig=/dev/null \
+            --server=$KUBERNETES_SERVER \
+            --certificate-authority=cert.crt \
+            --token=$KUBERNETES_TOKEN \
+            apply -f ./kube/
