@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.container.name}}-config
+data:
+  ALLOWED_HOSTS: {{ .Values.config.ALLOWED_HOSTS}}
+  AWS_S3_REGION_NAME: {{ .Values.config.AWS_S3_REGION_NAME }}
+  AWS_STORAGE_BUCKET_NAME: {{ .Values.config.AWS_STORAGE_BUCKET_NAME }}
+  CORS_ORIGIN_ALLOW_ALL: {{ .Values.config.CORS_ORIGIN_ALLOW_ALL }}
+  DEBUG: {{ .Values.config.DEBUG }}
+  DJANGO_LOGLEVEL: {{ .Values.config.DJANGO_LOGLEVEL }}
+  EMAIL_BACKEND: {{ .Values.config.EMAIL_BACKEND }}
+  EMAIL_HOST: {{ .Values.config.EMAIL_HOST }}
+  EMAIL_PORT: {{ .Values.config.EMAIL_PORT }}
+  EMAIL_TIMEOUT: {{ .Values.config.EMAIL_TIMEOUT }}
+  EMAIL_USE_SSL: {{ .Values.config.EMAIL_USE_SSL }}
+  EMAIL_USE_TLS: {{ .Values.config.EMAIL_USE_TLS }}
+  EMAIL_URL: {{ .Values.config.EMAIL_URL }}
+  LANG: {{ .Values.config.LANG }}
+  LANGUAGE_CODE: {{ .Values.config.LANGUAGE_CODE }}
+  MAX_UPLOAD_SIZE: {{ .Values.config.MAX_UPLOAD_SIZE }}
+  WAGTAILIMAGES_MAX_UPLOAD_SIZE: {{ .Values.config.MAX_UPLOAD_SIZE }}
+  

@@ -44,10 +44,10 @@ jobs:
           command: |
             docker build -t cabins-app:latest .
             docker tag cabins-app:latest wgarlock/cabins-app:latest
-            docker tag cabins-app:latest wgarlock/cabins-app:v0.0.10
+            docker tag cabins-app:latest wgarlock/cabins-app:v0.0.11
             echo "$DOCKERHUB_PASSWORD" | docker login -u "wgarlock" --password-stdin
             docker push wgarlock/cabins-app:latest
-            docker push wgarlock/cabins-app:v0.0.10
+            docker push wgarlock/cabins-app:v0.0.11
 
       - run:
           name: Install Deployment Requirements
@@ -59,17 +59,25 @@ jobs:
             sudo mv /tmp/linux-amd64/helm /usr/local/bin/helm
             sudo rm helm-v3.4.2-linux-amd64.tar.gz
             helm version
+
+
             curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
             chmod u+x ./kubectl
+            sudo mv ./kubectl /usr/local/bin/kubectl
+
+
+            curl -LO https://github.com/digitalocean/doctl/releases/download/v1.54.0/doctl-1.54.0-linux-amd64.tar.gz
+            tar -C /tmp/ -zxvf doctl-1.54.0-linux-amd64.tar.gz
+            sudo mv /tmp/doctl /usr/local/bin/doctl
+            sudo rm doctl-1.54.0-linux-amd64.tar.gz
+            doctl version
 
       - run:
           name: Deploy Code
           when: on_success 
           command: |
-            echo "$KUBERNETES_CLUSTER_CERTIFICATE" | base64 --decode > cert.crt
-            ./kubectl \
-            --kubeconfig=/dev/null \
-            --server=$KUBERNETES_SERVER \
-            --certificate-authority=cert.crt \
-            --token=$KUBERNETES_TOKEN \
-            apply -f ./kube/
+            doctl auth init --access-token=$DO_TOKEN
+            doctl kubernetes cluster kubeconfig save cabins
+            cd helm
+            helm upgrade cabins-app cabins-app
+            cd ..

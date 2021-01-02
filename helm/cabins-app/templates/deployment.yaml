@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.container.name}}-app
+  labels:
+    app: {{ .Values.container.name}}
+
+spec:
+  replicas: {{ .Values.replicas}}
+  selector:
+    matchLabels:
+      app: {{ .Values.container.name}}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum}}
+      labels:
+        app: {{ .Values.container.name}}
+    spec:
+      containers:
+        - image: {{ .Values.container.owner}}/{{ .Values.container.name}}-app:v{{ .Values.container.version}}
+          imagePullPolicy: {{ .Values.container.pullPolicy}}
+          name: {{ .Values.container.name}}-app
+          envFrom:
+          - secretRef:
+              name: {{ .Values.container.name}}-secret
+          - configMapRef:
+              name: {{ .Values.container.name}}-config
+          ports:
+            - containerPort: {{ .Values.service.port }}
+              name: {{ .Values.service.name }}
