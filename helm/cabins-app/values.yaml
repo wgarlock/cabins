@@ -1,0 +1,51 @@
+network:
+  domain: cabins.dev
+
+container:
+  name: cabins
+  version: 0.0.11
+  owner: wgarlock
+  http-port: 80
+  https-port: 443
+  pullPolicy: 'Always'
+
+replicas: 2
+
+service:
+  port: 8000
+  name: gunicorn
+
+owner:
+  email: wes@wesgarlock.com
+
+config:
+  ALLOWED_HOSTS: 'cabins.dev,'
+  AWS_S3_REGION_NAME: 'nyc3'
+  AWS_STORAGE_BUCKET_NAME: 'cabins-bucket'
+  CORS_ORIGIN_ALLOW_ALL: "\"True\""
+  DEBUG: "\"False\""
+  DJANGO_LOGLEVEL: 'INFO'
+  EMAIL_BACKEND: 'django.core.mail.backends.smtp.EmailBackend'
+  EMAIL_HOST: 'smtp.mailgun.org'
+  EMAIL_PORT: "\"587\""
+  EMAIL_TIMEOUT: "\"3600\""
+  EMAIL_USE_SSL: "\"True\""
+  EMAIL_USE_TLS: "\"True\""
+  EMAIL_URL: 'smtp://127.0.0.1:25'
+  LANG: 'C.UTF-8'
+  LANGUAGE_CODE: 'en-us'
+  MAX_UPLOAD_SIZE: "\"104857600\""
+  
+    
+secret:
+  AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+  AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+  BROKER_URL: $(BROKER_UR)
+  CELERY_RESULT_BACKEND: $(CELERY_RESULT_BACKEND)
+  DATABASE_URL_PROD: $(DATABASE_URL_PROD)
+  DATABASE_URL_DEV: $(DATABASE_URL_DEV)
+  EMAIL_HOST_PASSWORD: $(EMAIL_HOST_PASSWORD)
+  RECAPTCHA_PUBLIC_KEY: $(RECAPTCHA_PUBLIC_KEY)
+  RECAPTCHA_PRIVATE_KEY: $(RECAPTCHA_PRIVATE_KEY)
+  REDIS_CACHE_URL: $(REDIS_CACHE_URL)
+  SECRET_KEY: $(SECRET_KEY)

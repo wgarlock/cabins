@@ -49,6 +49,4 @@ coverage.*
 kubernetes/
 
 cabins-secrets
-helm/cabins-app/values.yaml
 tf/
-*secrets.yaml
