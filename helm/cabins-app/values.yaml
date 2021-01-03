@@ -3,7 +3,7 @@ network:
 
 container:
   name: cabins
-  version: 0.0.14
+  version: 0.0.15
   owner: wgarlock
   http-port: 80
   https-port: 443
