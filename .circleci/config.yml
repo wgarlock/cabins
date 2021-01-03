@@ -44,10 +44,10 @@ jobs:
           command: |
             docker build -t cabins-app:latest .
             docker tag cabins-app:latest wgarlock/cabins-app:latest
-            docker tag cabins-app:latest wgarlock/cabins-app:v0.0.11
+            docker tag cabins-app:latest wgarlock/cabins-app:v0.0.12
             echo "$DOCKERHUB_PASSWORD" | docker login -u "wgarlock" --password-stdin
             docker push wgarlock/cabins-app:latest
-            docker push wgarlock/cabins-app:v0.0.11
+            docker push wgarlock/cabins-app:v0.0.12
 
       - run:
           name: Install Deployment Requirements
@@ -79,5 +79,28 @@ jobs:
             doctl auth init --access-token=$DO_TOKEN
             doctl kubernetes cluster kubeconfig save cabins
             cd helm
-            helm upgrade cabins-app cabins-app
+            helm upgrade cabins-app cabins-app --set \
+            secert.AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID,\
+            secert.AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY,\
+            secert.BROKER_URL=$BROKER_URL,\
+            secert.CELERY_RESULT_BACKEND=$CELERY_RESULT_BACKEND,\
+            secert.DATABASE_URL_PROD=$DATABASE_URL_PROD,\
+            secert.DATABASE_URL_DEV=$DATABASE_URL_DEV,\
+            secert.EMAIL_HOST_PASSWORD=$EMAIL_HOST_PASSWORD,\
+            secert.RECAPTCHA_PUBLIC_KEY=$RECAPTCHA_PUBLIC_KEY,\
+            secert.RECAPTCHA_PRIVATE_KEY=$RECAPTCHA_PRIVATE_KEY,\
+            secert.REDIS_CACHE_URL=$REDIS_CACHE_URL,\
+            secert.SECRET_KEY=$SECRET_KEY
             cd ..
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

@@ -17,4 +17,4 @@ spec:
       paths:
       - backend:
           serviceName: {{ .Values.container.name }}
-          servicePort: 80
+          servicePort: 8000

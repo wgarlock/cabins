@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.container.name}}-config
 data:
-  ALLOWED_HOSTS: {{ .Values.config.ALLOWED_HOSTS}}
+  ALLOWED_HOSTS: '*,'
   AWS_S3_REGION_NAME: {{ .Values.config.AWS_S3_REGION_NAME }}
   AWS_STORAGE_BUCKET_NAME: {{ .Values.config.AWS_STORAGE_BUCKET_NAME }}
   CORS_ORIGIN_ALLOW_ALL: {{ .Values.config.CORS_ORIGIN_ALLOW_ALL }}
