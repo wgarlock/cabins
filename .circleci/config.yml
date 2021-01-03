@@ -79,20 +79,23 @@ jobs:
             doctl auth init --access-token=$DO_TOKEN
             doctl kubernetes cluster kubeconfig save cabins
             cd helm
-            helm upgrade cabins-app cabins-app --set \
-            secert.AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID,\
-            secert.AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY,\
-            secert.BROKER_URL=$BROKER_URL,\
-            secert.CELERY_RESULT_BACKEND=$CELERY_RESULT_BACKEND,\
-            secert.DATABASE_URL_PROD=$DATABASE_URL_PROD,\
-            secert.DATABASE_URL_DEV=$DATABASE_URL_DEV,\
-            secert.EMAIL_HOST_PASSWORD=$EMAIL_HOST_PASSWORD,\
-            secert.RECAPTCHA_PUBLIC_KEY=$RECAPTCHA_PUBLIC_KEY,\
-            secert.RECAPTCHA_PRIVATE_KEY=$RECAPTCHA_PRIVATE_KEY,\
-            secert.REDIS_CACHE_URL=$REDIS_CACHE_URL,\
-            secert.SECRET_KEY=$SECRET_KEY
+            helm upgrade cabins-app cabins-app
             cd ..
 
+
+      - run:
+        name: Install Staging Tests
+        when: on_success 
+        command: |
+          curl -LO https://github.com/loadimpact/k6/releases/download/v0.29.0/k6-v0.29.0-linux64.tar.gz
+          tar -C /tmp/ -zxvf k6-v0.29.0-linux64.tar.gz
+          sudo mv /tmp/k6-v0.29.0-linux64/k6 /usr/local/bin/k6
+          sudo rm /k6-v0.29.0-linux64.tar.gz
+          k6 version
+          k6 login cloud --token $K6_TOKEN
+          cd .k6 && k6 run --out cloud script.js
+          cd ..
+          
   
   
   
