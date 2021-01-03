@@ -15,17 +15,18 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - restore_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+
       - run:
           command: |
             python3 -m venv venv
             . venv/bin/activate
+            ls -all
+            cd wheels
+            ls -all
+            cd ..
+            cat requirements.txt
             pip install -r requirements.txt
-      - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          paths:
-            - "venv"
+
       - run:
           name: Running tests
           command: |
@@ -42,12 +43,12 @@ jobs:
           name: Build Docker image
           when: on_success
           command: |
-            docker build -t cabins-app:latest .
-            docker tag cabins-app:latest wgarlock/cabins-app:latest
-            docker tag cabins-app:latest wgarlock/cabins-app:v0.0.13
+            docker build -t cabins-app:v0.0.14 .
+            docker tag cabins-app:v0.0.14 wgarlock/cabins-app:latest
+            docker tag cabins-app:v0.0.14 wgarlock/cabins-app:v0.0.14
             echo "$DOCKERHUB_PASSWORD" | docker login -u "wgarlock" --password-stdin
             docker push wgarlock/cabins-app:latest
-            docker push wgarlock/cabins-app:v0.0.13
+            docker push wgarlock/cabins-app:v0.0.14
 
       - run:
           name: Install Deployment Requirements
@@ -81,21 +82,19 @@ jobs:
             cd helm
             helm upgrade cabins-app cabins-app
             cd ..
-
-
       - run:
-        name: Install Staging Tests
-        when: on_success 
-        command: |
-          curl -LO https://github.com/loadimpact/k6/releases/download/v0.29.0/k6-v0.29.0-linux64.tar.gz
-          tar -C /tmp/ -zxvf k6-v0.29.0-linux64.tar.gz
-          sudo mv /tmp/k6-v0.29.0-linux64/k6 /usr/local/bin/k6
-          sudo rm /k6-v0.29.0-linux64.tar.gz
-          k6 version
-          k6 login cloud --token $K6_TOKEN
-          cd .k6 && k6 run --out cloud script.js
-          cd ..
-          
+          name: Install Staging Tests
+          when: on_success 
+          command: |
+            curl -LO https://github.com/loadimpact/k6/releases/download/v0.29.0/k6-v0.29.0-linux64.tar.gz
+            tar -C /tmp/ -zxvf k6-v0.29.0-linux64.tar.gz
+            sudo mv /tmp/k6-v0.29.0-linux64/k6 /usr/local/bin/k6
+            sudo rm k6-v0.29.0-linux64.tar.gz
+            k6 version
+            k6 login cloud --token $K6_TOKEN
+            cd .k6 && k6 run --out cloud script.js
+            cd ..
+
   
   
   

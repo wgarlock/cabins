@@ -20,6 +20,8 @@ RUN set -ex \
     && apk del .build-deps \
     && cd app \
     && touch .env \
+    && ls -all \
+    && cd wheels \
     && ls -all
 
 WORKDIR /app
