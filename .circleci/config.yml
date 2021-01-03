@@ -44,10 +44,10 @@ jobs:
           command: |
             docker build -t cabins-app:latest .
             docker tag cabins-app:latest wgarlock/cabins-app:latest
-            docker tag cabins-app:latest wgarlock/cabins-app:v0.0.12
+            docker tag cabins-app:latest wgarlock/cabins-app:v0.0.13
             echo "$DOCKERHUB_PASSWORD" | docker login -u "wgarlock" --password-stdin
             docker push wgarlock/cabins-app:latest
-            docker push wgarlock/cabins-app:v0.0.12
+            docker push wgarlock/cabins-app:v0.0.13
 
       - run:
           name: Install Deployment Requirements
