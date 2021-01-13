@@ -18,7 +18,7 @@
   {% endblock %}
   
   <link rel="icon" type="image/png" href='{{ static("image/favicon.ico") }}'/> 
-  <link rel="stylesheet" type="text/css" href='{{ static("cabins-front.css") }}' />
+  <link rel="stylesheet" type="text/css" href='{{ static_version('cabins-front.css') }}' />
   {% block extra_css%}
   {% endblock %}
 </head>
@@ -30,7 +30,8 @@
 
   {% block context%}
     {% set base_context_id = "base_context" %}
-    {{ base_context|dump(base_context_id, "context") }}
+    {{ context_dump("context", base_context, page_context) }}
+
     <script>
       var csrf_input = "{% csrf_token %}"
       var csrftoken = "{{ csrf_token }}"
@@ -38,7 +39,7 @@
   {% endblock %}
   
   {% block extra_js %}
-    <script src="{{ static_version('cabins-front.js') }}" ></script>
+    <script async src="{{ static_version('cabins-front.js') }}" ></script>
   {% endblock %}
 </body>
 </html>

@@ -6,10 +6,12 @@ from django_jinja import library
 from cabins import __version__
 
 
-@library.filter
-def dump(obj, id, var):
-    data = mark_safe(json.dumps(obj))
-    return mark_safe(f"<script type='text/javascript' id={id}>var {var} = {data}</script>")
+@library.global_function
+def context_dump(var, *args):
+    data = dict()
+    [data.update(arg) for arg in args]
+    data = mark_safe(json.dumps(data))
+    return mark_safe(f"<script type='text/javascript'>var {var} = {data}</script>")
 
 
 @library.global_function

@@ -51,7 +51,7 @@ THIRD_PARTY_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
-    'wagtail.api.v2',
+    "django.contrib.sitemaps",
     'modelcluster',
     'taggit',
     'django_jinja',
@@ -59,6 +59,7 @@ THIRD_PARTY_APPS = [
     'treebeard',
     'boto3',
     'storages',
+    'django_seo_js'
 ]
 
 INSTALLED_APPS += THIRD_PARTY_APPS
@@ -75,7 +76,12 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
-    'cabins.front.middleware.SiteContentMiddleware'
+]
+
+
+MIDDLEWARE += [
+    'django_seo_js.middleware.EscapedFragmentMiddleware',
+    'django_seo_js.middleware.UserAgentMiddleware'
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -88,7 +94,8 @@ _TEMPLATE_CONTEXT_PROCESSORS = [
     "django.template.context_processors.static",
     "django.template.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
-    "django.template.context_processors.request"
+    "django.template.context_processors.request",
+    "cabins.front.context_processors.site_content"
 ]
 
 TEMPLATES = [
@@ -228,3 +235,9 @@ GRAPHENE = {
 }
 
 GRAPHQL_AUTH = {}
+
+SEO_JS_ENABLED = True
+SEO_JS_PRERENDER_TOKEN = env('SEO_JS_PRERENDER_TOKEN', default='')
+SEO_JS_BACKEND = "django_seo_js.backends.PrerenderHosted"
+
+PAGE_CACHING = True

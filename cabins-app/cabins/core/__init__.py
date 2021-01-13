@@ -20,8 +20,8 @@ def get_model(model_string):
     try:
         return apps.get_model(model_string)
     except ValueError:
-        raise ImproperlyConfigured("CORE_SITE_MODEL must be of the form 'app_label.model_name'")
+        raise ImproperlyConfigured(f"{model_string} must be of the form 'app_label.model_name'")
     except LookupError:
         raise ImproperlyConfigured(
-            "CORE_SITE_MODEL refers to model '%s' that has not been installed" % model_string
+            f"{model_string} refers to model that has not been installed"
         )

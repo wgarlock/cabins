@@ -9,7 +9,8 @@ from wagtail.core.models import Page
 from cabins.back.models import ContinentalPage, HomePage, ListingImages, ListingPage, RegionalPage, StatePage
 from cabins.front.models import SiteContent, SocialMedia
 from cabins.page.models import (
-    Activities, FoodDrink, General, NearbyCity, NearByWater, OpenDates, PropertySize, Room, Services, Suitability
+    Activities, BasePage, FoodDrink, General, NearbyCity, NearByWater, OpenDates, PropertySize, Room, Services,
+    Suitability
 )
 
 
@@ -17,6 +18,12 @@ from cabins.page.models import (
 @convert_django_field.register(TaggableManager)
 def convert_field_to_string(field, registry=None):
     return graphene.String(description=field.help_text, required=not field.null)
+
+
+class BasePageType(DjangoObjectType):
+    class Meta:
+        model = BasePage
+        fields = "__all__"
 
 
 class PageType(DjangoObjectType):
@@ -175,6 +182,8 @@ class SuitabilityType(DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
+    all_base_pages = graphene.List(BasePageType)
+    get_base_page_by_id = graphene.Field(BasePageType, id=graphene.Int(required=True))
     all_site_contents = graphene.List(SiteContentType)
     get_site_content_by_id = graphene.Field(SiteContentType, id=graphene.Int(required=True))
     all_home_pages = graphene.List(HomePageType)
@@ -187,6 +196,16 @@ class Query(graphene.ObjectType):
     get_regional_page_by_id = graphene.Field(RegionalPageType, id=graphene.Int(required=True))
     all_listing_pages = graphene.List(ListingPageType)
     get_listing_page_by_id = graphene.Field(ListingPageType, id=graphene.Int(required=True))
+
+    def resolve_all_base_pages(self, info):
+        # We can easily optimize query count in the resolve method
+        return BasePage.objects.all()
+
+    def resolve_get_base_page_by_id(self, info, id):
+        try:
+            return BasePage.objects.get(id=id)
+        except BasePage.DoesNotExist:
+            return None
 
     def resolve_all_site_contents(self, info):
         # We can easily optimize query count in the resolve method

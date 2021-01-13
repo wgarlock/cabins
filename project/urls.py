@@ -4,6 +4,7 @@ from django.urls import include, path
 from django.views.decorators.csrf import csrf_exempt
 from graphene_django.views import GraphQLView
 from wagtail.admin import urls as wagtailadmin_urls
+from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.core import urls as wagtail_urls
 
 urlpatterns = []
@@ -16,6 +17,7 @@ if settings.DEBUG:
 
 
 urlpatterns += [
+    path('sitemap.xml/', sitemap),
     path('admin/', include(wagtailadmin_urls)),
     path("api", csrf_exempt(GraphQLView.as_view(graphiql=settings.DEBUG))),
     path("", include(wagtail_urls)),

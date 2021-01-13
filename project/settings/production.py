@@ -130,3 +130,6 @@ logging.config.dictConfig({
         },
     },
 })
+
+SEO_JS_PRERENDER_URL = env('SEO_JS_PRERENDER_URL', default='')
+SEO_JS_PRERENDER_RECACHE_URL = os.path.join(SEO_JS_PRERENDER_URL, "recache")

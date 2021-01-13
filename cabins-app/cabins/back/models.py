@@ -49,11 +49,6 @@ class WagtailBasePage(AbstractBasePage, Page):
 
     objects = WagtailBasePageManager()
 
-    def get_context(self, request, **kwargs):
-        context = super().get_context(request, **kwargs)
-        context["base_context"]["site_content"] = request.site_context
-        return context
-
     class Meta(Page.Meta):
         abstract = True
 

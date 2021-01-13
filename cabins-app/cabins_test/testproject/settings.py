@@ -81,7 +81,8 @@ _TEMPLATE_CONTEXT_PROCESSORS = [
     "django.template.context_processors.static",
     "django.template.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
-    "django.template.context_processors.request"
+    "django.template.context_processors.request",
+    "cabins.front.context_processors.site_content"
 ]
 
 TEMPLATES = [
@@ -229,3 +230,11 @@ CORE_SITE_FINDER = "cabins.back.utils:SiteUtils"
 GRAPHENE = {
     "SCHEMA": "cabins.api.schema.schema"
 }
+
+SEO_JS_ENABLED = True
+SEO_JS_PRERENDER_TOKEN = "testtoken"
+SEO_JS_BACKEND = "django_seo_js.backends.PrerenderHosted"
+
+PAGE_CACHING = True
+SEO_JS_PRERENDER_URL = 'http://localhost:3000/'
+SEO_JS_PRERENDER_RECACHE_URL = os.path.join(SEO_JS_PRERENDER_URL, "recache")

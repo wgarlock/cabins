@@ -2,6 +2,7 @@ from django.db import models
 from graphql import get_default_backend
 
 from cabins.core.cache import get_class
+from cabins.core.exceptions import SerializerError
 
 
 class Orderable(models.Model):
@@ -19,7 +20,6 @@ class Image(models.Model):
 
 
 class SeriailizerMixin:
-    # convert TaggableManager to string representation
 
     backend = get_default_backend()
 
@@ -44,7 +44,7 @@ class SeriailizerMixin:
 
     def get_query(self):
         return f"""query {{
-            get{self.__class__.__name__}ById (id: {self.id}) {{
+            {self.serializer_request_string()} (id: {self.id}) {{
                 {self.serialize_attrs}
             }}
         }}
@@ -52,24 +52,34 @@ class SeriailizerMixin:
 
     def get_all_query(self):
         return f"""query {{
-            all{self.__class__.__name__}s {{
+            {self.serializer_all_request_string()} {{
                 {self.serialize_attrs}
             }}
         }}
         """
 
-    def serialize(self):
+    def serializer_request_string(self):
+        return f"get{self.__class__.__name__}ById"
+
+    def serializer_all_request_string(self):
+        return f"all{self.__class__.__name__}s"
+
+    def document_data(self, query):
         return self.backend.document_from_string(
             self.get_schema(),
-            self.get_query()
-        ).execute().data.get(
-            f"get{self.__class__.__name__}ById"
-        )
+            query
+        ).execute().data
+
+    def base_serializer(self, string, query):
+        data = self.document_data(query)
+        serialization = data.get(string)
+        if serialization:
+            return serialization
+        else:
+            raise SerializerError(f"{string} is not a valid key in the serialization dictionary")
+
+    def serialize(self):
+        return self.base_serializer(self.serializer_request_string(), self.get_query())
 
     def serialize_all(self):
-        return self.backend.document_from_string(
-            self.get_schema(),
-            self.get_all_query()
-        ).execute().data.get(
-            f"all{self.__class__.__name__}s"
-        )
+        return self.base_serializer(self.serializer_all_request_string(), self.get_all_query())

@@ -37,3 +37,6 @@ INTERNAL_IPS = [
 ]
 
 SHOW_TOOLBAR_CALLBACK = True
+
+SEO_JS_PRERENDER_URL = 'https://prerender.cabins.dev/'
+SEO_JS_PRERENDER_RECACHE_URL = os.path.join(SEO_JS_PRERENDER_URL, "recache")
