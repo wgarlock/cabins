@@ -35,4 +35,4 @@ config:
   LANG: 'C.UTF-8'
   LANGUAGE_CODE: 'en-us'
   MAX_UPLOAD_SIZE: "\"104857600\""
-  RENDERTRON_BASE_URL: cached.cabins.dev
+  SEO_JS_PRERENDER_URL: prerender.cabins.dev
