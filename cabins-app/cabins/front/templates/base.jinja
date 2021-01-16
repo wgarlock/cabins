@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
   <title itemprop="name">
     {% block title %}
-        {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
+       
     {% endblock %}
 </title>
 {% endblock%}
@@ -23,14 +23,14 @@
   {% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
-
-  {% block content %}{% with page=page.specific %}
+  {{ page_context }}
+  {% block content %}
     <div id="root"></div>
-  {% endwith %}{% endblock %}
+  {% endblock %}
 
   {% block context%}
     {% set base_context_id = "base_context" %}
-    {{ context_dump("context", base_context, page_context) }}
+    {{ context_dump("context", request=request, base=base_context, page=page) }}
 
     <script>
       var csrf_input = "{% csrf_token %}"

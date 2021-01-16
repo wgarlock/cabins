@@ -35,9 +35,18 @@ def test_template_tag_context_dump(db, wagtail_image, home_page): # noqa
     request.user = AnonymousUser()
     base_context = site_content(request)
     home_page = HomePage.objects.get(title="test_home")
-    assert home_page.title == "test_home"
     context = home_page.get_context(request=request)
-    context_dump("context", base_context, context["page_context"])
+    context_dump("context", request=request, base=base_context, page=context["page"])
+
+
+@override_settings(PAGE_CACHING=False)
+def test_template_tag_context_dump_no_page_cache(db, wagtail_image, home_page): # noqa
+    request = rf(host_name="test.com").get("/")
+    request.user = AnonymousUser()
+    base_context = site_content(request)
+    home_page = HomePage.objects.get(title="test_home")
+    context = home_page.get_context(request=request)
+    context_dump("context", request=request, base=base_context, page=context["page"])
 
 
 def test_template_tag_static_version(): # noqa

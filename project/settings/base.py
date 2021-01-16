@@ -240,4 +240,4 @@ SEO_JS_ENABLED = True
 SEO_JS_PRERENDER_TOKEN = env('SEO_JS_PRERENDER_TOKEN', default='')
 SEO_JS_BACKEND = "django_seo_js.backends.PrerenderHosted"
 
-PAGE_CACHING = True
+PAGE_CACHING = env('PAGE_CACHING', default=False)

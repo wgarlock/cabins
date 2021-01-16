@@ -64,14 +64,11 @@ class SeriailizerMixin:
     def serializer_all_request_string(self):
         return f"all{self.__class__.__name__}s"
 
-    def document_data(self, query):
-        return self.backend.document_from_string(
-            self.get_schema(),
-            query
-        ).execute().data
+    def create_document_data(self, query):
+        return self.get_schema().execute(query).data
 
     def base_serializer(self, string, query):
-        data = self.document_data(query)
+        data = self.create_document_data(query)
         serialization = data.get(string)
         if serialization:
             return serialization

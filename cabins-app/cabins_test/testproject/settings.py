@@ -12,7 +12,7 @@ DEBUG = True
 
 SECRET_KEY = 'xxx'
 
-ALLOWED_HOSTS = '*'
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'test.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -238,3 +238,20 @@ SEO_JS_BACKEND = "django_seo_js.backends.PrerenderHosted"
 PAGE_CACHING = True
 SEO_JS_PRERENDER_URL = 'http://localhost:3000/'
 SEO_JS_PRERENDER_RECACHE_URL = os.path.join(SEO_JS_PRERENDER_URL, "recache")
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    "renditions": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}

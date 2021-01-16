@@ -1,5 +1,3 @@
-from django.conf import settings
-from django.core.cache import cache
 from django.db import models
 from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
@@ -11,22 +9,7 @@ from cabins.page import get_page_string
 
 class AbstractBasePage(SeriailizerMixin):
     def context_builder(self, request):
-        cache_key = "page-{path}-{host}".format(
-            path=request.path,
-            host=request.get_host()
-        )
-        page_context_cache = None
-        if settings.PAGE_CACHING:
-            page_context_cache = cache.get(cache_key)
-
-        if not page_context_cache or not settings.PAGE_CACHING:
-            page_context_cache = dict(
-                page_context=dict(page=self.serialize())
-            )
-            if settings.PAGE_CACHING:
-                cache.set(cache_key, page_context_cache)
-
-        return page_context_cache
+        return {"page": self}
 
     def get_context_data(self):
         return self.context_builder(self.request)

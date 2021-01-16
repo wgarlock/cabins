@@ -3,17 +3,8 @@ import environ
 import logging.config
 import os
 import sentry_sdk
+from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
-
-sentry_sdk.init(
-    dsn="https://8f938dcf8b2943e29b84180082a32afd@o486641.ingest.sentry.io/5544255",
-    integrations=[DjangoIntegration()],
-    traces_sample_rate=1.0,
-
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
-)
 
 root = environ.Path(__file__) - 3
 
@@ -27,6 +18,16 @@ def optenv(var):
 
 
 env.read_env(os.path.join(BASE_DIR, '.env'))
+
+sentry_sdk.init(
+    dsn=env('SENTRY_DNS', default=''),
+    integrations=[CeleryIntegration(), DjangoIntegration()],
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS', default='*,').split(",")
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -47,6 +48,13 @@ CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": env('REDIS_CACHE_URL', default=None),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    "renditions": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.path.join(env('REDIS_CACHE_URL', default=None), "2"),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
