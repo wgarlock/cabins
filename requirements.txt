@@ -62,7 +62,7 @@ mccabe==0.6.1             # via flake8
 mock==4.0.3
 openpyxl==3.0.5           # via tablib
 packaging==20.8           # via pytest
-pillow==8.0.1             # via wagtail
+pillow==8.1.0             # via wagtail
 pluggy==0.13.1            # via pytest
 git+https://github.com/wgarlock/prelaunch#egg=prequ==1.4.7.post0.dev82+gf91a039
 promise==2.3              # via graphene-django, graphql-core, graphql-relay
