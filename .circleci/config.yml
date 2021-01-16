@@ -87,7 +87,7 @@ jobs:
 
       - run:
           name: Build and Deploy Versioned Static Content
-          command:
+          command: |
             cd ./cabins-app
             npm i
             npm run build
