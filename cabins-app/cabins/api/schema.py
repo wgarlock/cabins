@@ -9,7 +9,8 @@ from wagtail.core.models import Page
 from cabins.back.models import ContinentalPage, HomePage, ListingImages, ListingPage, RegionalPage, StatePage
 from cabins.front.models import SiteContent, SocialMedia
 from cabins.page.models import (
-    Activities, FoodDrink, General, NearbyCity, NearByWater, OpenDates, PropertySize, Room, Services, Suitability
+    Activities, BasePage, FoodDrink, General, NearbyCity, NearByWater, OpenDates, PropertySize, Room, Services,
+    Suitability
 )
 
 
@@ -17,6 +18,12 @@ from cabins.page.models import (
 @convert_django_field.register(TaggableManager)
 def convert_field_to_string(field, registry=None):
     return graphene.String(description=field.help_text, required=not field.null)
+
+
+class BasePageType(DjangoObjectType):
+    class Meta:
+        model = BasePage
+        fields = "__all__"
 
 
 class PageType(DjangoObjectType):
@@ -58,7 +65,7 @@ class SiteContentType(DjangoObjectType):
 class HomePageType(DjangoObjectType):
     class Meta:
         model = HomePage
-        fields = "__all__"
+        fields = ["id", "title", "description", "og_image", "hero_image"]
 
 
 class ContinentalPageType(DjangoObjectType):
@@ -175,6 +182,8 @@ class SuitabilityType(DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
+    all_base_pages = graphene.List(BasePageType)
+    get_base_page_by_id = graphene.Field(BasePageType, id=graphene.Int(required=True))
     all_site_contents = graphene.List(SiteContentType)
     get_site_content_by_id = graphene.Field(SiteContentType, id=graphene.Int(required=True))
     all_home_pages = graphene.List(HomePageType)
@@ -188,8 +197,16 @@ class Query(graphene.ObjectType):
     all_listing_pages = graphene.List(ListingPageType)
     get_listing_page_by_id = graphene.Field(ListingPageType, id=graphene.Int(required=True))
 
+    def resolve_all_base_pages(self, info):
+        return BasePage.objects.all()
+
+    def resolve_get_base_page_by_id(self, info, id):
+        try:
+            return BasePage.objects.get(id=id)
+        except BasePage.DoesNotExist:
+            return None
+
     def resolve_all_site_contents(self, info):
-        # We can easily optimize query count in the resolve method
         return SiteContent.objects.all()
 
     def resolve_get_site_content_by_id(self, info, id):
@@ -199,52 +216,47 @@ class Query(graphene.ObjectType):
             return None
 
     def resolve_all_home_pages(self, info):
-        # We can easily optimize query count in the resolve method
-        return HomePage.objects.select_base_related().all()
+        return HomePage.objects.all()
 
     def resolve_get_home_page_by_id(self, info, id):
         try:
-            return HomePage.objects.select_base_related().get(id=id)
+            return HomePage.objects.select_related("og_image", "hero_image").get(id=id)
         except HomePage.DoesNotExist:
             return None
 
     def resolve_all_continental_pages(self, info):
-        # We can easily optimize query count in the resolve method
-        return ContinentalPage.objects.select_base_related().all()
+        return ContinentalPage.objects.all()
 
     def resolve_get_continental_page_by_id(self, info, id):
         try:
-            return ContinentalPage.objects.select_base_related().get(id=id)
+            return ContinentalPage.objects.get(id=id)
         except ContinentalPage.DoesNotExist:
             return None
 
     def resolve_all_state_pages(self, info):
-        # We can easily optimize query count in the resolve method
-        return StatePage.objects.select_base_related().all()
+        return StatePage.objects.all()
 
     def resolve_get_state_page_by_id(self, info, id):
         try:
-            return StatePage.objects.select_base_related().get(id=id)
+            return StatePage.objects.get(id=id)
         except StatePage.DoesNotExist:
             return None
 
     def resolve_all_regional_pages(self, info):
-        # We can easily optimize query count in the resolve method
-        return RegionalPage.objects.select_base_related().all()
+        return RegionalPage.objects.all()
 
     def resolve_get_regional_page_by_id(self, info, id):
         try:
-            return RegionalPage.objects.select_base_related().get(id=id)
+            return RegionalPage.objects.get(id=id)
         except RegionalPage.DoesNotExist:
             return None
 
     def resolve_all_listing_pages(self, info):
-        # We can easily optimize query count in the resolve method
-        return ListingPage.objects.select_base_related().all()
+        return ListingPage.objects.all()
 
     def resolve_get_listing_page_by_id(self, info, id):
         try:
-            return ListingPage.objects.select_base_related().get(id=id)
+            return ListingPage.objects.get(id=id)
         except ListingPage.DoesNotExist:
             return None
 

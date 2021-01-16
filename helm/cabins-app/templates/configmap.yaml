@@ -20,4 +20,5 @@ data:
   LANGUAGE_CODE: {{ .Values.config.LANGUAGE_CODE }}
   MAX_UPLOAD_SIZE: {{ .Values.config.MAX_UPLOAD_SIZE }}
   WAGTAILIMAGES_MAX_UPLOAD_SIZE: {{ .Values.config.MAX_UPLOAD_SIZE }}
+  SEO_JS_PRERENDER_URL: {{ .Values.config.SEO_JS_PRERENDER_URL }}
   

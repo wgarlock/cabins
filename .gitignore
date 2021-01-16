@@ -51,3 +51,4 @@ kubernetes/
 cabins-secrets
 tf/
 secrets.yaml
+*.png

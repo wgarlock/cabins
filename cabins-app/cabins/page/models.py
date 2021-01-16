@@ -1,4 +1,3 @@
-from django.core.cache import cache
 from django.db import models
 from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
@@ -10,29 +9,15 @@ from cabins.page import get_page_string
 
 class AbstractBasePage(SeriailizerMixin):
     def context_builder(self, request):
-        context = dict()
-        cache_key = "base_context-{path}-{host}".format(
-            path=request.path,
-            host=request.get_host()
-        )
-        context['base_context'] = cache.get(cache_key)
-        if not context['base_context']:
-            context['base_context'] = dict()
-            context['base_context']['scheme'] = request.is_secure() and 'https' or 'http'
-            cache.set(cache_key, context['base_context'])
-
-        context['base_context']['is_authenticated'] = request.user.is_authenticated
-        context['base_context']['page'] = self.serialize()
-        return context
+        return {"page": self}
 
     def get_context_data(self):
         return self.context_builder(self.request)
 
     def get_context(self, request):
         self.request = request
-        context = super().get_context(request)
-        context.update(self.get_context_data())
-        return context
+        self.context = self.get_context_data()
+        return self.context
 
 
 class BasePage(AbstractBasePage, models.Model):
@@ -42,6 +27,10 @@ class BasePage(AbstractBasePage, models.Model):
     og_image = models.ForeignKey(
         get_image_model_string(), null=True, on_delete=models.SET_NULL, related_name='+'
     )
+
+    serialize_attrs = """
+        id
+    """
 
 
 class OpenDates(TaggedItemBase):

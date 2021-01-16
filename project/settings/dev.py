@@ -37,3 +37,23 @@ INTERNAL_IPS = [
 ]
 
 SHOW_TOOLBAR_CALLBACK = True
+
+SEO_JS_PRERENDER_URL = 'https://prerender.cabins.dev/'
+SEO_JS_PRERENDER_RECACHE_URL = os.path.join(SEO_JS_PRERENDER_URL, "recache")
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    "renditions": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}

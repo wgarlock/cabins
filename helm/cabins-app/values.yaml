@@ -35,3 +35,4 @@ config:
   LANG: 'C.UTF-8'
   LANGUAGE_CODE: 'en-us'
   MAX_UPLOAD_SIZE: "\"104857600\""
+  SEO_JS_PRERENDER_URL: prerender.cabins.dev

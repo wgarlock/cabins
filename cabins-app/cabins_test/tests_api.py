@@ -2,12 +2,16 @@ from graphene.test import Client
 
 from cabins.api.schema import schema
 from cabins.back.models import ContinentalPage, HomePage, ListingPage, RegionalPage, StatePage
+from cabins.core.exceptions import SerializerError
 from cabins.front.models import SiteContent
+from cabins.page.models import BasePage
 
 from .fixtures.back_fixtures import (  # noqa
     continental_page, home_page, listing_page, region_page, state_page, wagtail_image
 )
 from .fixtures.front_fixtures import image, site, site_content, social_media  # noqa
+from .fixtures.page_fixtures import BasePageFixture  # noqa
+from .fixtures.page_fixtures import image as base_image  # noqa
 
 
 def test_all_site_contents(db, image, site, site_content, social_media): # noqa
@@ -86,6 +90,16 @@ def test_no_site_content(db): # noqa
         """)
     assert executed == {'data': {'getSiteContentById': None}}
 
+def test_no_base_page(db): # noqa
+    client = Client(schema)
+    executed = client.execute("""query {
+            getBasePageById (id: 2) {
+                id
+            }
+        }
+        """)
+    assert executed == {'data': {'getBasePageById': None}}
+
 
 def test_site_content_serialize(db, image, site, site_content, social_media): # noqa
     content = SiteContent.objects.first().serialize()
@@ -127,3 +141,17 @@ def test_listing_page_serialize(db, wagtail_image, home_page, continental_page, 
     assert 'errors' not in content
     content = ListingPage.objects.first().serialize_all()
     assert 'errors' not in content
+
+def test_base_page_serialize(db, base_image, BasePageFixture): # noqa
+    content = BasePage.objects.first().serialize()
+    assert 'errors' not in content
+    content = BasePage.objects.first().serialize_all()
+    assert 'errors' not in content
+
+def test_base_serializer(db, base_image, BasePageFixture): # noqa
+    obj = BasePage.objects.first()
+    obj.id = 10
+    try:
+        obj.serialize()
+    except SerializerError:
+        pass

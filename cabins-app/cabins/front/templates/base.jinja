@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
   <title itemprop="name">
     {% block title %}
-        {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
+       
     {% endblock %}
 </title>
 {% endblock%}
@@ -18,19 +18,20 @@
   {% endblock %}
   
   <link rel="icon" type="image/png" href='{{ static("image/favicon.ico") }}'/> 
-  <link rel="stylesheet" type="text/css" href='{{ static("cabins-front.css") }}' />
+  <link rel="stylesheet" type="text/css" href='{{ static_version('cabins-front.css') }}' />
   {% block extra_css%}
   {% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
-
-  {% block content %}{% with page=page.specific %}
+  {{ page_context }}
+  {% block content %}
     <div id="root"></div>
-  {% endwith %}{% endblock %}
+  {% endblock %}
 
   {% block context%}
     {% set base_context_id = "base_context" %}
-    {{ base_context|dump(base_context_id, "context") }}
+    {{ context_dump("context", request=request, base=base_context, page=page) }}
+
     <script>
       var csrf_input = "{% csrf_token %}"
       var csrftoken = "{{ csrf_token }}"
@@ -38,7 +39,7 @@
   {% endblock %}
   
   {% block extra_js %}
-    <script src="{{ static_version('cabins-front.js') }}" ></script>
+    <script async src="{{ static_version('cabins-front.js') }}" ></script>
   {% endblock %}
 </body>
 </html>

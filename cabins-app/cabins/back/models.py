@@ -3,17 +3,13 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, ObjectList, TabbedInterface
 from wagtail.core.fields import RichTextField
-from wagtail.core.models import Page, PageManager
+from wagtail.core.models import Page
 from wagtail.images.edit_handlers import ImageChooserPanel
 
+from cabins.back.signals import base_page_save
 from cabins.core import get_image_model_string
 from cabins.core.models import Orderable
 from cabins.page.models import AbstractBasePage
-
-
-class WagtailBasePageManager(PageManager):
-    def select_base_related(self):
-        return self.select_related("hero_image", "og_image")
 
 
 class WagtailBasePage(AbstractBasePage, Page):
@@ -47,12 +43,19 @@ class WagtailBasePage(AbstractBasePage, Page):
         ]
     )
 
-    objects = WagtailBasePageManager()
+    dict_fields = [
+        "id",
+        "title",
+        "seo_title",
+        "description",
+        "og_description",
+        "meta_description",
+    ]
 
-    def get_context(self, request, **kwargs):
-        context = super().get_context(request, **kwargs)
-        context["base_context"]["site_content"] = request.site_context
-        return context
+    def save(self, **kwargs):
+        if self.pk:
+            base_page_save.send(sender=self.__class__, instance=self, kwargs={})
+        super().save(**kwargs)
 
     class Meta(Page.Meta):
         abstract = True
