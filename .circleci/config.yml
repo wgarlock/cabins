@@ -5,8 +5,10 @@ jobs:
   build:
     docker:
       - image: circleci/python:3.7
+        user: root
       - image: circleci/redis:latest
       - image: circleci/postgres:9.6.2-alpine
+        
         auth:
           username: wgarlock
           password: $DOCKERHUB_PASSWORD 
@@ -40,24 +42,29 @@ jobs:
             isort ./cabins-app --check --diff
             coverage run -m pytest --pyargs cabins_test
             coverage xml -i
+
+      - run:
+          name: Fail Fast
+          when: on_fail
+          command: |
+            echo "Canceling workflow as a step resulted in failure"
+            curl -X POST --header "Content-Type: application/json" "https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${CIRCLE_TOKEN}"
     
       - codecov/upload:
           file: ./coverage.xml
   
       - run:
           name: Build Docker image
-          when: on_success
           command: |
             docker build -t cabins-app:latest .
             docker tag cabins-app:latest wgarlock/cabins-app:latest
-            docker tag cabins-app:latest wgarlock/cabins-app:v0.0.15
+            docker tag cabins-app:latest wgarlock/cabins-app:v0.0.17
             echo "$DOCKERHUB_PASSWORD" | docker login -u "wgarlock" --password-stdin
             docker push wgarlock/cabins-app:latest
-            docker push wgarlock/cabins-app:v0.0.15
+            docker push wgarlock/cabins-app:v0.0.17
 
       - run:
           name: Install Deployment Requirements
-          when: on_success 
           command: |
             sudo apt install curl
             curl -LO https://get.helm.sh/helm-v3.4.2-linux-amd64.tar.gz
@@ -79,26 +86,37 @@ jobs:
             doctl version
 
       - run:
-          name: Deploy Code
-          when: on_success 
+          name: Build and Deploy Versioned Static Content
+          command:
+            cd cabins-app
+            npm i && npm run build
+            cd .. && python manage.py collectstatic
+
+      - run:
+          name: Deploy Code to Kubernetes
           command: |
             doctl auth init --access-token=$DO_TOKEN
             doctl kubernetes cluster kubeconfig save cabins
             cd helm
             helm upgrade cabins-app cabins-app
             cd ..
+
       - run:
-          name: Install Staging Tests
-          when: on_success 
+          name: Install K6 performance test
           command: |
             curl -LO https://github.com/loadimpact/k6/releases/download/v0.29.0/k6-v0.29.0-linux64.tar.gz
             tar -C /tmp/ -zxvf k6-v0.29.0-linux64.tar.gz
             sudo mv /tmp/k6-v0.29.0-linux64/k6 /usr/local/bin/k6
             sudo rm k6-v0.29.0-linux64.tar.gz
             k6 version
+               
+      - run:
+          name: Run Staging Tests
+          command: |
             k6 login cloud --token $K6_TOKEN
-            cd .k6 && k6 run --out cloud script.js
+            cd .k6 && k6 run --out cloud quick_test.js
             cd ..
+
 
   
   
