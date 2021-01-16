@@ -89,8 +89,10 @@ jobs:
           name: Build and Deploy Versioned Static Content
           command:
             cd cabins-app
-            npm i && npm run build
-            cd .. && python manage.py collectstatic
+            npm i 
+            npm run build
+            cd ..
+            python manage.py collectstatic
 
       - run:
           name: Deploy Code to Kubernetes
